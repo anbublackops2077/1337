@@ -841,7 +841,7 @@ echo "<table class='directory-listing-table'><td>
     }
     fclose($fp);
 }elseif ($_GET[net('string-tools')]=='opet') {
-    echo' <center>
+    echo' <center><table class="directory-listing-table">
     <h3>: String Tools :</h3>
     [<a href="?act='.$_GET['act'].'&replace='.$_GET['stringtools'].'">Auto replace String</a>]<br>
     <font color=white> NOTE : This tool is an improvement from the enc0de dec0de script and I added coventer</font>
