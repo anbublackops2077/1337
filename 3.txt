@@ -531,14 +531,6 @@ echo '</td></thead></table><br>';
         session_start();
         session_destroy();
         echo '<script>window.location="'.$_SERVER['SCRIPT_NAME'].'";</script>';
-
-}elseif ($_GET[net('logout')]=="opet") {
-    session_destroy();
-    echo'<script>
-    alert("bye.. !!!!!!!!");
-    window.location.href="?";
-    </script>';
-
 }
 if (isset($_GET['viewfile'])) {
     $files = basename($_GET['viewfile']);
