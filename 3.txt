@@ -840,6 +840,7 @@ echo "<table class='directory-listing-table'><td>
         }
     }
     fclose($fp);
+
 }elseif ($_GET[net('string-tools')]=='opet') {
     echo' <center><table class="directory-listing-table">
     <h3>: String Tools :</h3>
